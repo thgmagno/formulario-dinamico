@@ -1,7 +1,5 @@
 # Formulário Dinâmico (Em Desenvolvimento)
 
-## Formulário Dinâmico
-
 Este projeto demonstra uma abordagem dinâmica e escalável para criação de formulários com foco em **validação inteligente**, **adaptação de campos** e **feedback contextual**. É uma solução pensada para cenários diversos, onde formulários precisam ser montados e validados de forma flexível.
 
 ## Casos demonstrados
