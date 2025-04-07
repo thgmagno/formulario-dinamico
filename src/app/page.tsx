@@ -1,23 +1,35 @@
-import Link from 'next/link'
+import { AppPage } from '@/components/common/AppPage'
+import { MenuContainer } from '@/components/common/MenuContainer'
+import { MenuLink } from '@/components/common/MenuLink'
 
 export default function Home() {
   return (
-    <main className="wrapper">
-      <section className="card">
-        <h1>Formulário dinâmico</h1>
-        <Link href="cadastro-de-produtos" className="section-link">
-          📦 Cadastro de produtos
-        </Link>
-        <Link href="cadastro-multi-etapas" className="section-link">
-          📝 Cadastro multi-etapas
-        </Link>
-        <Link href="feedback-contextual" className="section-link">
-          💬 Feedback contextual
-        </Link>
-        <Link href="planos-personalizados" className="section-link">
-          📊 Planos personalizados
-        </Link>
-      </section>
-    </main>
+    <AppPage pageTitle="Formulários dinâmicos">
+      <MenuContainer>
+        <MenuLink
+          href="cadastro-de-produtos"
+          emoji="📦"
+          label="Cadastro de produtos"
+        />
+        <MenuLink
+          href="cadastro-multi-etapas"
+          emoji="📝"
+          label="Cadastro multi-etapas"
+          developing
+        />
+        <MenuLink
+          href="feedback-contextual"
+          emoji="💬"
+          label="Feedback contextual"
+          developing
+        />
+        <MenuLink
+          href="planos-personalizados"
+          emoji="📊"
+          label="Planos personalizados"
+          developing
+        />
+      </MenuContainer>
+    </AppPage>
   )
 }

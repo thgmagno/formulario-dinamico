@@ -3,7 +3,17 @@ import { Select } from './Select'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
-export function InputPlate() {
+export function InputPlate({
+  errorMessage,
+  required,
+  value: currentValue,
+  onChange,
+}: {
+  errorMessage?: string[]
+  required?: boolean
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}) {
   const [value, setValue] = useState('')
   const [padrao, setPadrao] = useState<'mercosul' | 'antiga'>('mercosul')
 
@@ -53,18 +63,25 @@ export function InputPlate() {
         }}
         options={[
           { value: 'mercosul', label: 'Mercosul' },
-          { value: 'antiga', label: 'Antiga' },
+          { value: 'antiga', label: 'Antigo (cinza)' },
         ]}
       />
 
       <div className="col-span-4 grid gap-1 sm:col-span-2 lg:col-span-1">
-        <Label>Placa</Label>
+        <Label>
+          Placa {required && <span className="text-destructive">*</span>}
+        </Label>
         <Input
           name="placa"
           placeholder={padrao === 'mercosul' ? 'Ex: RIO 2A18' : 'Ex: ELD 2022'}
           value={value}
           onChange={handleChange}
         />
+        {errorMessage && (
+          <p className="text-destructive truncate text-xs">
+            {errorMessage.join(', ')}
+          </p>
+        )}
       </div>
     </>
   )

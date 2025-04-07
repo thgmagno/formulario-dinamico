@@ -42,7 +42,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.147 0.004 49.25);
+  --background: oklch(0.16 0.02 280);
   --foreground: oklch(0.985 0.001 106.423);
   --card: oklch(0.216 0.006 56.043);
   --card-foreground: oklch(0.985 0.001 106.423);
@@ -81,6 +81,22 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  a, button {
+    @apply cursor-pointer
+  }
+
+  .emoji {
+    @apply text-3xl md:text-4xl
+  }
+
+  .btn-menu {
+    @apply flex flex-col items-center justify-center rounded-2xl bg-slate-900 px-4 py-8 hover:bg-slate-800
+  }
+  
+  .btn-label {
+    @apply mt-4 text-base font-medium md:text-lg
   }
 
   .no-scrollbar {

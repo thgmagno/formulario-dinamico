@@ -1,13 +1,46 @@
-import { withMask } from 'use-mask-input'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import clsx from 'clsx'
+import { useCallback } from 'react'
 
 interface Props {
   width: 'sm' | 'md' | 'lg' | 'full'
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  errorMessage?: string[]
+  required?: boolean
 }
 
-export function InputCurrencyBRL({ width = 'full' }: Props) {
+export function InputCurrencyBRL({
+  width = 'full',
+  value,
+  onChange,
+  errorMessage,
+  required,
+}: Props) {
+  const handleMaskedChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const rawValue = e.target.value.replace(/\D/g, '')
+      const number = Number(rawValue) / 100
+
+      const formatted = number.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      })
+
+      const event = {
+        ...e,
+        target: {
+          ...e.target,
+          value: formatted,
+        },
+      }
+
+      onChange(event as React.ChangeEvent<HTMLInputElement>)
+    },
+    [onChange],
+  )
+
   return (
     <div
       className={clsx('grid gap-1', {
@@ -17,12 +50,20 @@ export function InputCurrencyBRL({ width = 'full' }: Props) {
         'col-span-4': width === 'full',
       })}
     >
-      <Label>Valor</Label>
+      <Label>
+        Valor {required && <span className="text-destructive">*</span>}
+      </Label>
       <Input
         name="valor"
         placeholder="R$ 0,00"
-        ref={withMask('brl-currency')}
+        value={value}
+        onChange={handleMaskedChange}
       />
+      {errorMessage && (
+        <p className="text-destructive truncate text-xs">
+          {errorMessage.join(', ')}
+        </p>
+      )}
     </div>
   )
 }

@@ -7,9 +7,22 @@ interface Props {
   name: string
   placeholder?: string
   width: 'sm' | 'md' | 'lg' | 'full'
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  errorMessage?: string[]
+  required?: boolean
 }
 
-export function Input({ label, name, placeholder, width = 'full' }: Props) {
+export function Input({
+  label,
+  name,
+  placeholder,
+  width = 'full',
+  value,
+  onChange,
+  errorMessage,
+  required,
+}: Props) {
   return (
     <div
       className={clsx('grid gap-1', {
@@ -19,8 +32,23 @@ export function Input({ label, name, placeholder, width = 'full' }: Props) {
         'col-span-4': width === 'full',
       })}
     >
-      {label && <Label>{label}</Label>}
-      <InputCN name={name} placeholder={placeholder} />
+      {label && (
+        <Label>
+          {label}
+          {required && <span className="text-destructive">*</span>}
+        </Label>
+      )}
+      <InputCN
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+      {errorMessage && (
+        <p className="text-destructive truncate text-xs">
+          {errorMessage.join(', ')}
+        </p>
+      )}
     </div>
   )
 }

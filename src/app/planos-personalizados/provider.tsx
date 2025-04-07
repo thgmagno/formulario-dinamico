@@ -1,12 +1,30 @@
 'use client'
 
-import { ButtonWithEmoji } from '@/components/common/ButtonWithEmoji'
-
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { EletronicoForm } from '@/components/forms/produtos/EletronicoForm'
+import { VeiculoForm } from '@/components/forms/produtos/VeiculoForm'
+import { MenuContainer } from '@/components/common/MenuContainer'
 export function Provider() {
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <ButtonWithEmoji emoji="🌐" title="Internet" />
-      <ButtonWithEmoji emoji="📺" title="TV" />
-    </div>
+    <MenuContainer>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button className="btn-menu">
+            <span className="emoji">🌐</span>
+            <span className="btn-label">Internet</span>
+          </button>
+        </DialogTrigger>
+        <VeiculoForm />
+      </Dialog>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button className="btn-menu">
+            <span className="emoji">📺</span>
+            <span className="btn-label">TV</span>
+          </button>
+        </DialogTrigger>
+        <EletronicoForm />
+      </Dialog>
+    </MenuContainer>
   )
 }

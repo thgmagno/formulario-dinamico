@@ -8,6 +8,10 @@ interface Props {
   name: string
   placeholder?: string
   width: 'sm' | 'md' | 'lg' | 'full'
+  errorMessage?: string[]
+  required?: boolean
+  maxLength?: number
+  thousandsSeparator?: boolean
 }
 
 export function InputNumber({
@@ -15,12 +19,22 @@ export function InputNumber({
   name,
   placeholder,
   width = 'full',
+  errorMessage,
+  required,
+  maxLength = 3,
+  thousandsSeparator,
 }: Props) {
   const [value, setValue] = useState<string>('')
 
+  const formatWithSeparator = (val: string) => {
+    const numeric = val.replace(/\D/g, '').slice(0, maxLength)
+    if (!thousandsSeparator) return numeric
+    return Number(numeric).toLocaleString('pt-BR')
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const onlyNumbers = e.target.value.replace(/\D/g, '').slice(0, 3)
-    setValue(onlyNumbers)
+    const raw = e.target.value.replace(/\D/g, '').slice(0, maxLength)
+    setValue(formatWithSeparator(raw))
   }
 
   return (
@@ -32,7 +46,12 @@ export function InputNumber({
         'col-span-4': width === 'full',
       })}
     >
-      {label && <Label>{label}</Label>}
+      {label && (
+        <Label>
+          {label}
+          {required && <span className="text-destructive">*</span>}
+        </Label>
+      )}
       <InputCN
         name={name}
         placeholder={placeholder}
@@ -40,6 +59,11 @@ export function InputNumber({
         onChange={handleChange}
         inputMode="numeric"
       />
+      {errorMessage && (
+        <p className="text-destructive truncate text-xs">
+          {errorMessage.join(', ')}
+        </p>
+      )}
     </div>
   )
 }

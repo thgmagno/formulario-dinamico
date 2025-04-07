@@ -21,6 +21,8 @@ interface Props {
   width: 'sm' | 'md' | 'lg' | 'full'
   value?: string
   onChange?: (value: string) => void
+  errorMessage?: string[]
+  required?: boolean
 }
 
 export function Select({
@@ -31,6 +33,8 @@ export function Select({
   width = 'full',
   value,
   onChange,
+  errorMessage,
+  required,
 }: Props) {
   return (
     <div
@@ -41,7 +45,12 @@ export function Select({
         'col-span-4': width === 'full',
       })}
     >
-      {label && <Label>{label}</Label>}
+      {label && (
+        <Label>
+          {label}
+          {required && <span className="text-destructive">*</span>}
+        </Label>
+      )}
       <SelectCN name={name} value={value} onValueChange={onChange}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder} />
@@ -54,6 +63,11 @@ export function Select({
           ))}
         </SelectContent>
       </SelectCN>
+      {errorMessage && (
+        <p className="text-destructive truncate text-xs">
+          {errorMessage.join(', ')}
+        </p>
+      )}
     </div>
   )
 }

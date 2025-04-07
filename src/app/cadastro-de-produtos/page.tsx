@@ -1,16 +1,37 @@
-import { GoHome } from '@/components/common/GoHome'
 import { Provider } from './provider'
+import { getItems } from '@/actions/session'
 
-export default function CadastroDeProdutos() {
+import { isEletronico, isVeiculo } from '@/lib/typeGuards/produtos'
+import { AppPage } from '@/components/common/AppPage'
+import { Accordion } from '@/components/common/Accordion'
+
+export default async function CadastroDeProdutos() {
+  const items = await getItems()
+
+  const veiculos = items.filter(isVeiculo)
+  const eletronicos = items.filter(isEletronico)
+
   return (
-    <main className="wrapper">
-      <section className="card">
-        <div className="flex items-center justify-between">
-          <GoHome />
-          <h2 className="flex-1">Escolha o produto</h2>
-        </div>
-        <Provider />
-      </section>
-    </main>
+    <AppPage pageTitle="Escolha o produto" showBackButton>
+      <Provider />
+      {veiculos.length > 0 && (
+        <Accordion
+          data={[
+            { key: 'veiculos', label: 'Veículos cadastrados', data: veiculos },
+          ]}
+        />
+      )}
+      {eletronicos.length > 0 && (
+        <Accordion
+          data={[
+            {
+              key: 'eletronicos',
+              label: 'Eletrônicos cadastrados',
+              data: eletronicos,
+            },
+          ]}
+        />
+      )}
+    </AppPage>
   )
 }
