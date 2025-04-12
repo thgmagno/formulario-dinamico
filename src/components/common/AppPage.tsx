@@ -6,14 +6,15 @@ interface Props {
   children: ReactNode
   pageTitle?: string
   showBackButton?: boolean
+  href?: string
 }
 
-export function AppPage({ children, pageTitle, showBackButton }: Props) {
+export function AppPage({ children, pageTitle, showBackButton, href }: Props) {
   return (
     <main className="mx-auto mt-20 mb-36 flex w-[90%] max-w-4xl flex-col items-center">
       <header className="mb-4 flex w-full items-center border-b pb-4">
         {showBackButton && (
-          <Link href="/">
+          <Link href={href ?? '/'}>
             <ChevronLeft />
           </Link>
         )}

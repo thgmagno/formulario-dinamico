@@ -16,7 +16,7 @@ export function MenuLink({
     <Link
       href={developing ? '#' : href}
       className={clsx(
-        'btn-menu',
+        'btn-menu bg-card hover:bg-card-foreground',
         developing && 'pointer-events-none cursor-not-allowed opacity-50',
       )}
     >
