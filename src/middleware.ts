@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export const middleware = (request: NextRequest) => {
-  const developing = [
-    'cadastro-multi-etapas',
-    'feedback-contextual',
-    'planos-personalizados',
-  ]
+  const developing = ['feedback-contextual', 'planos-personalizados']
 
   const url = request.nextUrl
 
@@ -15,9 +11,5 @@ export const middleware = (request: NextRequest) => {
 }
 
 export const config = {
-  matcher: [
-    '/cadastro-multi-etapas/:path*',
-    '/feedback-contextual/:path*',
-    '/planos-personalizados/:path*',
-  ],
+  matcher: ['/feedback-contextual/:path*', '/planos-personalizados/:path*'],
 }

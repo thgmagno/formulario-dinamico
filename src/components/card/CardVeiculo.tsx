@@ -16,8 +16,6 @@ export function CardVeiculo({ item, emoji }: Props) {
     maximumFractionDigits: 0,
   }).format(Number(item.km))
 
-  console.log(item)
-
   return (
     <CardBase
       id={item.id}

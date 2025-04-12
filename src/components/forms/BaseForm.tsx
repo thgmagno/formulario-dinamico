@@ -7,11 +7,13 @@ export function BaseForm({
   isPending,
   isValid,
   children,
+  buttonLabel,
 }: {
   action: (formData: FormData) => void
   isPending: boolean
   isValid: boolean
   children: React.ReactNode
+  buttonLabel?: string
 }) {
   return (
     <form
@@ -28,7 +30,7 @@ export function BaseForm({
 
       <div className="col-span-4 flex w-full justify-end">
         <Button type="submit" disabled={isPending}>
-          {isPending ? 'Aguarde...' : 'Cadastrar'}
+          {isPending ? 'Aguarde...' : buttonLabel || 'Cadastrar'}
         </Button>
       </div>
     </form>

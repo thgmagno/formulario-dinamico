@@ -15,7 +15,6 @@ export default function Home() {
           href="cadastro-multi-etapas"
           emoji="📝"
           label="Cadastro multi-etapas"
-          developing
         />
         <MenuLink
           href="feedback-contextual"
