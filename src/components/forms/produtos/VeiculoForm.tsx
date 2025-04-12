@@ -131,12 +131,7 @@ export function VeiculoForm() {
       />
 
       {/* Placa */}
-      <InputPlate
-        value={props.placa}
-        onChange={(e) => setValor('placa', e.target.value)}
-        errorMessage={formState.errors.placa}
-        required
-      />
+      <InputPlate errorMessage={formState.errors.placa} required />
 
       {/* Valor */}
       <InputCurrencyBRL

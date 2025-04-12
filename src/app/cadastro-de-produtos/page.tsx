@@ -31,7 +31,14 @@ export default async function CadastroDeProdutos() {
           <span className="btn-label">Eletrônico</span>
         </Link>
       </div>
-      <CardWrapper title="Produtos cadastrados">
+      <CardWrapper
+        title="Produtos cadastrados"
+        isEmpty={produtos.length === 0}
+        fallback={[
+          'Nenhum produto cadastrado no momento.',
+          'Que tal adicionar alguns produtos para experimentar as validações dos formulários?',
+        ]}
+      >
         {produtos.map((item) => (
           <CardItem key={item.id} item={item} />
         ))}

@@ -35,9 +35,7 @@ export function Textarea({
         onChange={onChange}
       />
       {errorMessage && (
-        <p className="text-destructive truncate text-xs">
-          {errorMessage.join(', ')}
-        </p>
+        <p className="text-destructive truncate text-xs">{errorMessage[0]}</p>
       )}
     </div>
   )

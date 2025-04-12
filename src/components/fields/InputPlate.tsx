@@ -6,13 +6,9 @@ import { Input } from '@/components/ui/input'
 export function InputPlate({
   errorMessage,
   required,
-  value: currentValue,
-  onChange,
 }: {
   errorMessage?: string[]
   required?: boolean
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }) {
   const [value, setValue] = useState('')
   const [padrao, setPadrao] = useState<'mercosul' | 'antiga'>('mercosul')
@@ -78,9 +74,7 @@ export function InputPlate({
           onChange={handleChange}
         />
         {errorMessage && (
-          <p className="text-destructive truncate text-xs">
-            {errorMessage.join(', ')}
-          </p>
+          <p className="text-destructive truncate text-xs">{errorMessage[0]}</p>
         )}
       </div>
     </>

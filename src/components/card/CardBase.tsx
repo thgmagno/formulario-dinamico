@@ -24,14 +24,14 @@ export function CardBase({ id, title, emoji, children }: Props) {
   return (
     <div
       ref={cardRef}
-      className="bg-card hover:bg-card-foreground relative flex rounded-lg border p-2.5 shadow-sm transition-all duration-300"
+      className="bg-card hover:bg-card-foreground relative flex rounded-lg p-2.5 shadow-sm transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {isHovered && <CardOptions id={id} />}
       <div className="mr-2 min-w-fit text-2xl">{emoji}</div>
       <div className="flex-1 overflow-hidden text-sm">
-        <h3 className="font-medium sm:truncate">{title}</h3>
+        <h3 className="font-medium">{title}</h3>
         <div className="text-muted-foreground">{children}</div>
       </div>
     </div>
