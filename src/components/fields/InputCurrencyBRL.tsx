@@ -5,6 +5,7 @@ import { useCallback } from 'react'
 
 interface Props {
   width: 'sm' | 'md' | 'lg' | 'full'
+  label?: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   errorMessage?: string[]
@@ -13,6 +14,7 @@ interface Props {
 
 export function InputCurrencyBRL({
   width = 'full',
+  label,
   value,
   onChange,
   errorMessage,
@@ -51,7 +53,8 @@ export function InputCurrencyBRL({
       })}
     >
       <Label>
-        Valor {required && <span className="text-destructive">*</span>}
+        {label || 'Valor'}{' '}
+        {required && <span className="text-destructive">*</span>}
       </Label>
       <Input
         name="valor"

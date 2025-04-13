@@ -7,9 +7,15 @@ import {
 } from '@/lib/states/etapas'
 import {
   DadosPessoaisSchema,
-  ExperienciasSchema,
+  ExperienciaSchema,
   PreferenciasSchema,
 } from '@/lib/schemas/etapas'
+import { Experiencia } from '@/lib/types/etapas'
+import { PeriodOptions, TypeContractOptions } from '@/lib/options'
+import { formatarDisponibilidade, formatarValorHora } from '@/lib/utils'
+import { addItem } from './session'
+import { revalidatePath } from 'next/cache'
+import { FreelancerType } from '@/lib/types/produtos'
 
 export async function dadosPessoaisAction(
   formState: DadosPessoaisFormState,
@@ -28,13 +34,53 @@ export async function experienciasAction(
   formState: ExperienciasFormState,
   formData: FormData,
 ): Promise<ExperienciasFormState> {
-  const parsed = ExperienciasSchema.safeParse(Object.fromEntries(formData))
+  const experiencias: Experiencia[] = []
+  const errors: {
+    cargo?: string[]
+    empresa?: string[]
+    tecnologias?: string[]
+    periodo?: string[]
+  }[] = []
 
-  if (!parsed.success) {
-    return { errors: parsed.error.flatten().fieldErrors }
+  let i = 0
+
+  while (formData.get(`experiencias[${i}].cargo`) !== null) {
+    const parsed = ExperienciaSchema.safeParse({
+      cargo: formData.get(`experiencias[${i}].cargo`),
+      empresa: formData.get(`experiencias[${i}].empresa`),
+      tecnologias: formData.get(`experiencias[${i}].tecnologias`),
+      periodo: formData.get(`experiencias[${i}].periodo`),
+    })
+
+    if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors
+
+      errors[i] = {
+        cargo: fieldErrors.cargo,
+        empresa: fieldErrors.empresa,
+        tecnologias: fieldErrors.tecnologias,
+        periodo: fieldErrors.periodo,
+      }
+    } else {
+      experiencias.push({
+        cargo: parsed.data.cargo,
+        empresa: parsed.data.empresa,
+        tecnologias: parsed.data.tecnologias.split(','),
+        periodo: parsed.data.periodo,
+      })
+    }
+
+    i++
   }
 
-  return { errors: {} }
+  if (errors.length > 0) {
+    return {
+      errors: { experiencias: errors },
+      success: false,
+    } as ExperienciasFormState
+  }
+
+  return { success: true, errors: {} }
 }
 
 export async function preferenciasAction(
@@ -47,5 +93,48 @@ export async function preferenciasAction(
     return { errors: parsed.error.flatten().fieldErrors }
   }
 
-  return { errors: {} }
+  return { success: true, errors: {} }
+}
+
+export async function salvarFreela(formData: FormData) {
+  const formatarDadosParaExibicao = (data: FreelancerType) => {
+    const experiencias = data.experiencias?.map((exp) => ({
+      cargo: exp.cargo,
+      empresa: exp.empresa,
+      periodo:
+        PeriodOptions.find((p) => p.value === exp.periodo)?.label ||
+        exp.periodo,
+      tecnologias: exp.tecnologias?.join(', ') || '',
+    }))
+
+    const preferencias = data.preferencias && {
+      modeloTrabalho: PeriodOptions.find(
+        (o) => o.value === data.preferencias?.modeloTrabalho,
+      )?.label,
+      tipoContrato: TypeContractOptions.find(
+        (o) => o.value === data.preferencias?.tipoContrato,
+      )?.label,
+      valorHora: formatarValorHora(data.preferencias.valorHora),
+      disponibilidade: formatarDisponibilidade(
+        data.preferencias.disponibilidade,
+      ),
+    }
+
+    return {
+      nome: data.nome,
+      email: data.email,
+      telefone: data.telefone,
+      experiencias,
+      preferencias,
+    }
+  }
+
+  const dadosFormatados = formatarDadosParaExibicao(
+    JSON.parse(formData.get('data') as string),
+  )
+
+  await addItem({ key: 'freelas', ...dadosFormatados })
+
+  revalidatePath('/')
+  return { success: true }
 }

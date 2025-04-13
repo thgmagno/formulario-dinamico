@@ -4,7 +4,8 @@ import { ItemBase } from '@/lib/types'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
-export async function addItem(novoItem: Record<string, string | number>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function addItem(novoItem: Record<string, any>) {
   const cookieStore = await cookies()
   const cookie = cookieStore.get(process.env.COOKIE_STORE!)
   const items = cookie ? JSON.parse(cookie.value) : []

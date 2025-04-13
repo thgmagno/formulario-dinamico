@@ -1,25 +1,13 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { Experiencia } from '../types/etapas'
-
-type DadosFormulario = {
-  nome?: string
-  email?: string
-  telefone?: string
-  experiencias?: Experiencia[]
-  preferencias?: {
-    modelo_trabalho?: string
-    tipo_contrato?: string[]
-    valor_hora?: number
-    disponibilidade?: number
-  }
-}
+import { FreelancerType } from '../types/produtos'
 
 type FormularioStore = {
   etapa: number
-  dados: DadosFormulario
+  dados: FreelancerType
   setEtapa: (etapa: number) => void
-  atualizarDados: (novos: Partial<DadosFormulario>) => void
+  atualizarDados: (novos: Partial<FreelancerType>) => void
   resetar: () => void
   atualizarExperiencia: (index: number, novos: Partial<Experiencia>) => void
   adicionarExperiencia: () => void
@@ -29,12 +17,16 @@ type FormularioStore = {
 export const useFormulario = create<FormularioStore>()(
   persist(
     (set) => ({
-      etapa: 1,
-      dados: {},
+      etapa: 2,
+      dados: {
+        id: Date.now(),
+        key: 'freelance',
+      },
       setEtapa: (etapa) => set({ etapa }),
       atualizarDados: (novos) =>
         set((state) => ({ dados: { ...state.dados, ...novos } })),
-      resetar: () => set({ etapa: 1, dados: {} }),
+      resetar: () =>
+        set({ etapa: 1, dados: { id: Date.now(), key: 'freelance' } }),
       atualizarExperiencia: (index: number, novos: Partial<Experiencia>) =>
         set((state) => ({
           dados: {

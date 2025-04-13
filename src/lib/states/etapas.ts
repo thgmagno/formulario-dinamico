@@ -11,10 +11,12 @@ export interface DadosPessoaisFormState {
 export interface ExperienciasFormState {
   success?: boolean
   errors: {
-    cargo?: string[]
-    empresa?: string[]
-    tecnologias?: string[]
-    periodo?: string[]
+    experiencias?: {
+      cargo?: string[]
+      empresa?: string[]
+      tecnologias?: string[]
+      periodo?: string[]
+    }[]
     _form?: string
   }
 }

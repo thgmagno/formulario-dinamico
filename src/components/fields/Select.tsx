@@ -21,7 +21,7 @@ interface Props {
   width: 'sm' | 'md' | 'lg' | 'full'
   value?: string
   onChange?: (value: string) => void
-  errorMessage?: string[]
+  errorMessage?: string | string[]
   required?: boolean
 }
 
@@ -36,6 +36,8 @@ export function Select({
   errorMessage,
   required,
 }: Props) {
+  const msg = Array.isArray(errorMessage) ? errorMessage[0] : errorMessage
+
   return (
     <div
       className={clsx('grid gap-1', {
@@ -63,9 +65,7 @@ export function Select({
           ))}
         </SelectContent>
       </SelectCN>
-      {errorMessage && (
-        <p className="text-destructive truncate text-xs">{errorMessage[0]}</p>
-      )}
+      {msg && <p className="text-destructive truncate text-xs">{msg}</p>}
     </div>
   )
 }

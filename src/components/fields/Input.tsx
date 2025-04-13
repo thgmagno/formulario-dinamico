@@ -9,7 +9,7 @@ interface Props {
   width: 'sm' | 'md' | 'lg' | 'full'
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  errorMessage?: string[]
+  errorMessage?: string | string[]
   required?: boolean
 }
 
@@ -23,6 +23,8 @@ export function Input({
   errorMessage,
   required,
 }: Props) {
+  const msg = Array.isArray(errorMessage) ? errorMessage[0] : errorMessage
+
   return (
     <div
       className={clsx('grid gap-1', {
@@ -44,9 +46,7 @@ export function Input({
         value={value}
         onChange={onChange}
       />
-      {errorMessage && (
-        <p className="text-destructive truncate text-xs">{errorMessage[0]}</p>
-      )}
+      {msg && <p className="text-destructive truncate text-xs">{msg}</p>}
     </div>
   )
 }

@@ -8,11 +8,11 @@ export const DadosPessoaisSchema = z.object({
 })
 
 // Experiências
-export const ExperienciasSchema = z.object({
-  cargo: z.string().min(1, { message: 'Cargo é obrigatório' }),
-  empresa: z.string().optional(),
-  tecnologias: z.array(z.string()).optional(),
-  periodo: z.string().min(1, { message: 'Período é obrigatório' }),
+export const ExperienciaSchema = z.object({
+  cargo: z.string().min(1, 'Cargo é obrigatório'),
+  empresa: z.string().min(1, 'Empresa é obrigatória'),
+  tecnologias: z.string().min(1, 'Informe as tecnologias'),
+  periodo: z.enum(['menos-1-ano', '1-3-anos', '3-5-anos', 'mais-5-anos']),
 })
 
 // Preferências
@@ -21,10 +21,12 @@ export const PreferenciasSchema = z.object({
     .string()
     .min(1, { message: 'Modelo de trabalho é obrigatório' }),
   tipoContrato: z
-    .array(z.string())
+    .string()
     .min(1, { message: 'Tipo de contrato é obrigatório' }),
-  valorHora: z.number().min(1, { message: 'Valor por hora é obrigatório' }),
-  disponibilidade: z
+  valorHora: z.coerce
+    .number()
+    .min(1, { message: 'Valor por hora é obrigatório' }),
+  disponibilidade: z.coerce
     .number()
     .min(1, { message: 'Disponibilidade é obrigatória' }),
 })
