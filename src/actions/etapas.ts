@@ -104,7 +104,6 @@ export async function preferenciasAction(
   const parsed = PreferenciasSchema.safeParse(Object.fromEntries(formData))
 
   if (!parsed.success) {
-    console.log(parsed.error)
     return { errors: parsed.error.flatten().fieldErrors }
   }
 

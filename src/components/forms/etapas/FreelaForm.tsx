@@ -279,6 +279,7 @@ function PreferenciasForm() {
   const [formState, action, isPending] = useActionState(preferenciasAction, {
     errors: {},
   })
+  const isValidForm = Object.keys(formState.errors).length === 0
 
   useEffect(() => {
     if (formState.success) {
@@ -287,7 +288,7 @@ function PreferenciasForm() {
   }, [formState.success])
 
   return (
-    <BaseForm action={action} isPending={isPending} isValid={true}>
+    <BaseForm action={action} isPending={isPending} isValid={isValidForm}>
       {/* Modelo de trabalho */}
       <RadioGroup
         name="modeloTrabalho"
