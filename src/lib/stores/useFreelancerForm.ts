@@ -7,17 +7,26 @@ type FormularioStore = {
   dados: {
     id: number
     key: string
-    nome?: string
-    email?: string
-    telefone?: string
-    experiencias?: Experiencia[]
-  }
+  } & FreelancerType
   setEtapa: (etapa: number) => void
   atualizarDados: (novos: Partial<FreelancerType>) => void
   resetar: () => void
   atualizarExperiencia: (index: number, novos: Partial<Experiencia>) => void
   adicionarExperiencia: () => void
   removerExperiencia: (index: number) => void
+}
+
+const initialState = {
+  email: '',
+  experiencias: [],
+  nome: '',
+  telefone: '',
+  preferencias: {
+    disponibilidade: '',
+    modeloTrabalho: '',
+    tipoContrato: '',
+    valorHora: '',
+  },
 }
 
 export const useFormulario = create<FormularioStore>()(
@@ -27,12 +36,16 @@ export const useFormulario = create<FormularioStore>()(
       dados: {
         id: Date.now(),
         key: 'freelance',
+        ...initialState,
       },
       setEtapa: (etapa) => set({ etapa }),
       atualizarDados: (novos) =>
         set((state) => ({ dados: { ...state.dados, ...novos } })),
       resetar: () =>
-        set({ etapa: 1, dados: { id: Date.now(), key: 'freelance' } }),
+        set({
+          etapa: 1,
+          dados: { id: Date.now(), key: 'freelance', ...initialState },
+        }),
       atualizarExperiencia: (index: number, novos: Partial<Experiencia>) =>
         set((state) => ({
           dados: {

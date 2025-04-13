@@ -421,7 +421,7 @@ function PreVisualizacao() {
               (o) => o.value === exp.periodo,
             )?.label
             return (
-              <div key={i} className="md:px-2 md:odd:border-r">
+              <div key={i} className="last:border-none md:px-2 md:odd:border-r">
                 <p>Cargo: {exp.cargo}</p>
                 <p>Empresa: {exp.empresa}</p>
                 <p>
