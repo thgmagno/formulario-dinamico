@@ -29,6 +29,11 @@ export default function Home() {
           developing
         />
       </MenuContainer>
+
+      <footer className="mt-10 max-w-xl p-4 text-center text-sm text-zinc-500">
+        Esta aplicação usa apenas cookies/localStorage por simplicidade e
+        economia. Nenhuma informação é armazenada em banco de dados.
+      </footer>
     </AppPage>
   )
 }
