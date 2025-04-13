@@ -7,7 +7,9 @@ import Link from 'next/link'
 
 export default async function CadastroMultiEtapas() {
   const items = await getItems()
+
   const freelancers = items.filter(isFreelance)
+  const cadastrados = [...freelancers]
 
   return (
     <AppPage pageTitle="Cadastro multi-etapas" showBackButton>
@@ -21,14 +23,14 @@ export default async function CadastroMultiEtapas() {
         </Link>
       </div>
       <CardWrapper
-        title="Freelancers cadastrados"
+        title="Cadastrados"
         isEmpty={freelancers.length === 0}
         fallback={[
-          'Nenhum freelancer cadastrado no momento.',
+          'Nenhum cadastrado no momento.',
           'Que tal adicionar alguns para experimentar as validações dos formulários?',
         ]}
       >
-        {freelancers.map((item) => (
+        {cadastrados.map((item) => (
           <CardItem key={item.id} item={item} />
         ))}
       </CardWrapper>

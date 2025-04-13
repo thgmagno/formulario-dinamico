@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Experiencia } from '../types/etapas'
-import { FreelancerType } from '../types/produtos'
+import { Experiencia, FreelancerType } from '../types/etapas'
 
 type FormularioStore = {
   etapa: number
@@ -17,7 +16,7 @@ type FormularioStore = {
 export const useFormulario = create<FormularioStore>()(
   persist(
     (set) => ({
-      etapa: 2,
+      etapa: 1,
       dados: {
         id: Date.now(),
         key: 'freelance',

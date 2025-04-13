@@ -1,4 +1,4 @@
-import { FreelancerType } from '@/lib/types/produtos'
+import { FreelancerType } from '@/lib/types/etapas'
 import { CardBase } from './CardBase'
 
 interface Props {

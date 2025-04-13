@@ -10,12 +10,11 @@ import {
   ExperienciaSchema,
   PreferenciasSchema,
 } from '@/lib/schemas/etapas'
-import { Experiencia } from '@/lib/types/etapas'
+import { Experiencia, FreelancerType } from '@/lib/types/etapas'
 import { PeriodOptions, TypeContractOptions } from '@/lib/options'
 import { formatarDisponibilidade, formatarValorHora } from '@/lib/utils'
 import { addItem } from './session'
 import { revalidatePath } from 'next/cache'
-import { FreelancerType } from '@/lib/types/produtos'
 
 export async function dadosPessoaisAction(
   formState: DadosPessoaisFormState,

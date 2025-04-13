@@ -1,5 +1,4 @@
 import { ItemBase } from '.'
-import { Experiencia } from './etapas'
 
 export type EletronicoType = ItemBase & {
   descricao: string
@@ -24,17 +23,4 @@ export type VeiculoType = ItemBase & {
   placa: string
   valor: string
   observacoes: string
-}
-
-export type FreelancerType = ItemBase & {
-  nome?: string
-  email?: string
-  telefone?: string
-  experiencias?: Experiencia[]
-  preferencias?: {
-    modeloTrabalho?: string
-    tipoContrato?: string
-    valorHora?: string
-    disponibilidade?: string
-  }
 }
