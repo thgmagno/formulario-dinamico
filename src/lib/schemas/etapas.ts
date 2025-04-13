@@ -18,10 +18,10 @@ export const ExperienciaSchema = z.object({
 // Preferências
 export const PreferenciasSchema = z.object({
   modeloTrabalho: z
-    .string()
+    .string({ required_error: 'Modelo de trabalho é obrigatório' })
     .min(1, { message: 'Modelo de trabalho é obrigatório' }),
   tipoContrato: z
-    .string()
+    .string({ required_error: 'Tipo de contrato é obrigatório' })
     .min(1, { message: 'Tipo de contrato é obrigatório' }),
   valorHora: z.coerce
     .number()

@@ -11,7 +11,12 @@ import {
   PreferenciasSchema,
 } from '@/lib/schemas/etapas'
 import { Experiencia, FreelancerType } from '@/lib/types/etapas'
-import { PeriodOptions, TypeContractOptions } from '@/lib/options'
+import {
+  PeriodOptions,
+  TechnologyOptions,
+  TypeContractOptions,
+  WorkOptions,
+} from '@/lib/options'
 import { formatarDisponibilidade, formatarValorHora } from '@/lib/utils'
 import { addItem } from './session'
 import { revalidatePath } from 'next/cache'
@@ -42,6 +47,16 @@ export async function experienciasAction(
   }[] = []
 
   let i = 0
+
+  if (!formData.get('experiencias[0].cargo')) {
+    return {
+      errors: {
+        _form:
+          'Por favor, informe ao menos uma experiência antes de continuar.',
+      },
+      success: false,
+    }
+  }
 
   while (formData.get(`experiencias[${i}].cargo`) !== null) {
     const parsed = ExperienciaSchema.safeParse({
@@ -89,6 +104,7 @@ export async function preferenciasAction(
   const parsed = PreferenciasSchema.safeParse(Object.fromEntries(formData))
 
   if (!parsed.success) {
+    console.log(parsed.error)
     return { errors: parsed.error.flatten().fieldErrors }
   }
 
@@ -100,14 +116,14 @@ export async function salvarFreela(formData: FormData) {
     const experiencias = data.experiencias?.map((exp) => ({
       cargo: exp.cargo,
       empresa: exp.empresa,
-      periodo:
-        PeriodOptions.find((p) => p.value === exp.periodo)?.label ||
-        exp.periodo,
-      tecnologias: exp.tecnologias?.join(', ') || '',
+      periodo: PeriodOptions.find((p) => p.value === exp.periodo)?.label,
+      tecnologias: exp.tecnologias?.map(
+        (tec) => TechnologyOptions.find((t) => t.value === tec)?.label,
+      ),
     }))
 
     const preferencias = data.preferencias && {
-      modeloTrabalho: PeriodOptions.find(
+      modeloTrabalho: WorkOptions.find(
         (o) => o.value === data.preferencias?.modeloTrabalho,
       )?.label,
       tipoContrato: TypeContractOptions.find(

@@ -329,6 +329,7 @@ function PreferenciasForm() {
         name="valorHora"
         label="Valor hora"
         value={store.dados.preferencias?.valorHora || ''}
+        errorMessage={formState.errors.valorHora}
         onChange={(e) =>
           store.atualizarDados({
             preferencias: {
@@ -349,6 +350,7 @@ function PreferenciasForm() {
         name="disponibilidade"
         label="Disponibilidade"
         value={store.dados.preferencias?.disponibilidade || ''}
+        errorMessage={formState.errors.disponibilidade}
         onChange={(e) =>
           store.atualizarDados({
             preferencias: {
@@ -456,7 +458,7 @@ function PreVisualizacao() {
       <Button
         onClick={finalizarCadastro}
         className="mt-3 w-full"
-        variant="outline"
+        variant="success"
         size="lg"
       >
         {isPending ? 'Finalizando...' : 'Finalizar cadastro'}

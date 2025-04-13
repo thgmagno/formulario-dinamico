@@ -4,7 +4,14 @@ import { Experiencia, FreelancerType } from '../types/etapas'
 
 type FormularioStore = {
   etapa: number
-  dados: FreelancerType
+  dados: {
+    id: number
+    key: string
+    nome?: string
+    email?: string
+    telefone?: string
+    experiencias?: Experiencia[]
+  }
   setEtapa: (etapa: number) => void
   atualizarDados: (novos: Partial<FreelancerType>) => void
   resetar: () => void

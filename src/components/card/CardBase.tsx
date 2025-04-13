@@ -31,7 +31,7 @@ export function CardBase({ id, title, emoji, children }: Props) {
       {isHovered && <CardOptions id={id} />}
       <div className="mr-2 min-w-fit text-2xl">{emoji}</div>
       <div className="flex-1 overflow-hidden text-sm">
-        <h3 className="font-medium">{title}</h3>
+        <h3 className="font-medium capitalize">{title}</h3>
         <div className="text-muted-foreground">{children}</div>
       </div>
     </div>

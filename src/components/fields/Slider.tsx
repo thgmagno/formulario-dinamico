@@ -9,6 +9,7 @@ interface Props {
   name: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  errorMessage?: string | string[]
   required?: boolean
   min?: number
   max?: number
@@ -20,6 +21,7 @@ export function Slider({
   label,
   name,
   value,
+  errorMessage,
   onChange,
   required,
   min = 0,
@@ -28,6 +30,7 @@ export function Slider({
   type,
 }: Props) {
   const [val, setVal] = useState([Number(value) || min])
+  const msg = Array.isArray(errorMessage) ? errorMessage[0] : errorMessage
 
   const formatarValor = (n: number) => {
     if (type === 'currency') {
@@ -65,10 +68,12 @@ export function Slider({
           className="flex-1"
           onChange={onChange}
         />
-        <span className="text-muted-foreground w-[120px] text-right text-sm">
+        <span className="text-muted-foreground mb-2 w-[120px] text-right text-sm">
           {formatarValor(val[0])}
         </span>
       </div>
+
+      {msg && <p className="text-destructive truncate text-xs">{msg}</p>}
     </div>
   )
 }
