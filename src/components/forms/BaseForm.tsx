@@ -8,12 +8,14 @@ export function BaseForm({
   isValid,
   children,
   buttonLabel,
+  prevButton,
 }: {
   action: (formData: FormData) => void
   isPending: boolean
   isValid: boolean
   children: React.ReactNode
   buttonLabel?: string
+  prevButton?: () => void
 }) {
   return (
     <form
@@ -28,7 +30,12 @@ export function BaseForm({
         </p>
       )}
 
-      <div className="col-span-4 flex w-full justify-end">
+      <div className="col-span-4 flex w-full justify-end gap-4">
+        {prevButton && (
+          <Button onClick={prevButton} variant="secondary">
+            Voltar
+          </Button>
+        )}
         <Button type="submit" disabled={isPending}>
           {isPending ? 'Aguarde...' : buttonLabel || 'Cadastrar'}
         </Button>

@@ -111,7 +111,12 @@ function DadosPessoaisForm() {
   }, [formState.success])
 
   return (
-    <BaseForm action={action} isPending={isPending} isValid={isValidForm}>
+    <BaseForm
+      action={action}
+      isPending={isPending}
+      isValid={isValidForm}
+      buttonLabel="Avançar"
+    >
       {/* Nome */}
       <Input
         label="Nome"
@@ -164,7 +169,13 @@ function ExperienciasForm() {
   }, [formState.success])
 
   return (
-    <BaseForm action={action} isPending={isPending} isValid={true}>
+    <BaseForm
+      action={action}
+      isPending={isPending}
+      isValid={true}
+      prevButton={() => store.setEtapa(1)}
+      buttonLabel="Avançar"
+    >
       {store.dados.experiencias?.map((exp, index) => (
         <ExperienciaItem
           key={index}
@@ -288,7 +299,13 @@ function PreferenciasForm() {
   }, [formState.success])
 
   return (
-    <BaseForm action={action} isPending={isPending} isValid={isValidForm}>
+    <BaseForm
+      action={action}
+      isPending={isPending}
+      isValid={isValidForm}
+      prevButton={() => store.setEtapa(2)}
+      buttonLabel="Avançar"
+    >
       {/* Modelo de trabalho */}
       <RadioGroup
         name="modeloTrabalho"
@@ -371,7 +388,7 @@ function PreferenciasForm() {
 }
 
 function PreVisualizacao() {
-  const { dados, resetar } = useFormulario()
+  const { dados, resetar, setEtapa } = useFormulario()
   const [isPending, startTransition] = useTransition()
   const { replace } = useRouter()
 
@@ -388,11 +405,21 @@ function PreVisualizacao() {
     })
   }
 
-  const renderSecao = (titulo: string, conteudo: React.ReactNode) => (
+  const renderSecao = (
+    titulo: string,
+    conteudo: React.ReactNode,
+    step: number,
+  ) => (
     <div className="bg-input/30 mb-2.5 rounded-lg border p-3">
-      <h3 className="mb-2 border-b pb-2 text-sm font-medium text-neutral-300">
-        {titulo}
-      </h3>
+      <div className="mb-2 flex justify-between border-b pb-2 text-sm font-medium text-neutral-300">
+        <h3>{titulo}</h3>
+        <button
+          onClick={() => setEtapa(step)}
+          className="font-medium text-emerald-500"
+        >
+          Editar
+        </button>
+      </div>
       <div className="px-2">{conteudo}</div>
     </div>
   )
@@ -406,6 +433,7 @@ function PreVisualizacao() {
           <p>E-mail: {dados.email}</p>
           <p>Telefone: {dados.telefone}</p>
         </>,
+        1,
       )}
 
       {renderSecao(
@@ -433,6 +461,7 @@ function PreVisualizacao() {
             )
           })}
         </div>,
+        2,
       )}
 
       {dados.preferencias &&
@@ -454,6 +483,7 @@ function PreVisualizacao() {
               {formatarDisponibilidade(dados.preferencias.disponibilidade)}
             </p>
           </>,
+          3,
         )}
 
       <Button
